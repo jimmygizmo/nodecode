@@ -1,0 +1,20 @@
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions
+
+(Side topic: JS Statements: https://www.w3schools.com/js/js_statements.asp )
+
+Function expressions and the arrow syntax:
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/function
+
+A function expression is similar to and has the same syntax as a function declaration.
+I think of function expressions as being on the right side of an equals sign
+  or as an argument or parameter to something. It is not allowed at the start of a statement.
+
+const getRectArea = function(width, height) {
+  return width * height;
+};
+
+console.log(getRectArea(3, 4));
+// expected output: 12
+
+--------------------------------------------------------------------------
+
