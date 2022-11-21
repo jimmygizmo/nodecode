@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+
+<html>
+
+<!-- WARNING - Not working. I tried creating and passing an instance and adding a this.drawball() but that was not
+what was needed. Not sure what this code needs. It sure looks like it lacks instance creation. Not sure of the problem. -->
+<!-- Just something found on StackExchange that was showing simply how the function keyword is not used in front of
+method definitions. -->
+<!-- I wanted to get it working and there are no bugs I can see, but there is no ball animated or shown on the page. -->
+<!-- FROM: https://stackoverflow.com/questions/52900036/how-to-call-class-function-in-javascript -->
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Canvas</title>
+
+    <style type="text/css">
+      body {
+          background-color: white;
+      }
+
+      canvas { 
+        border: 3px solid black; 
+    }
+    </style>
+
+  </head>
+
+  <body>
+
+    <canvas id="canvas-for-ball" height="800px" width="800px"></canvas>
+
+    <script type="text/javascript">
+      console.log("Ball anim script entered.")
+      // Gets a handle to the element with id canvasOne.
+      var canvas = document.getElementById("canvas-for-ball");
+      // Get a 2D context for the canvas.
+      var ctx = canvas.getContext("2d");
+
+      // The vertical location of the ball.
+      var y = 10;
+      var x = 10;
+      var ballRadius = 3;
+      var ySpeed = 1;
+
+      class Ball {
+        constructor(x, y, ballRadius, ySpeed) {
+            console.log("Ball constructor called.")
+            this.x = x;
+            this.y = y
+            this.ballRadius = ballRadius;
+            this.ySpeed = ySpeed;
+        }//endConstructor
+
+        // ** THERE IS A BUG NEAR HERE. EITHER: "Unexpected identifier; reported on StackEx."
+        // My VSCode gives "Unexpected token. A constructor, method, accessor, or property was expected."
+        // * PROBLEM: Functions defined in a class don't need the function prefix.
+        // function drawball() {
+        //     ctx.beginPath();
+        //     ctx.arc(x, y, ballRadius, 0, 2 * Math.PI);
+        //     ctx.stroke();
+        // }//endDrawball
+        // ** SO FOR ALL OF THESE CLASS METHODS, THE "function" keyword has been removed now:
+
+        drawball() {
+            console.log("drawball() called.")
+            ctx.beginPath();
+            ctx.arc(x, y, ballRadius, 0, 2 * Math.PI);
+            ctx.stroke();
+        }//endDrawball
+
+        draw() {
+            console.log("draw() called.")
+            ctx.clearRect(1, 1, 800, 800);
+            drawball(); 
+        }//endDraw
+
+        move() {
+            console.log("move() called.")
+            // Update the y location.
+            y += ySpeed;
+            console.log(y);
+        }
+      } //endBall
+
+
+      // A function to repeat every time the animation loops.
+      function repeatme() {
+        console.log("repeatme() called.")
+        // Draw the ball (stroked, not filled).
+        draw();
+        move();
+
+        //catch ball at bottom
+        if (y == 800)
+        {
+            console.log("ball stopped by the floor.")
+             ySpeed = 0;
+        }
+
+        window.requestAnimationFrame(repeatme);
+      }
+
+      // Get the animation going.
+      console.log("Will call repeatme() now.")
+      repeatme();
+    </script>
+
+  </body>
+
+</html>
+
