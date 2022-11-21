@@ -13,27 +13,35 @@ const userWatchingCatMeme = true;
 
 function watchTutorialCallback(callback, errorCallback) {
   if (userLeft) {
-    errorCallback({
-      name: "User left",
-      message: "bummer"
-    })
+    errorCallback(
+      {
+        name: "User left",
+        message: "bummer"
+      }
+    )
   } else if (userWatchingCatMeme) {
-    errorCallback({
-      name: "User Watching Cat Meme",
-      message: "WebDevSimplified < Cat"
-  })
+    errorCallback(
+      {
+        name: "User Watching Cat Meme",
+        message: "WebDevSimplified < Cat"
+      }
+    )
 } else {
-  callback("Thumbs up and Subscribe")
+  callback("Thumbs up and Subscribe");
   }
-}
+};
 
 
-// The anonymous callback functions first get defined when you call the caller_backer() func.
+// The anonymous callback functions first get defined when you call the caller_backer() func, like this:
 
-// Calling with arguments which are two anonymous functions.
-watchTutorialCallback((message) => {
-  console.log("Success: " + message)
-}, (error) => {
-  console.log(error.name + " " + error.message)
-})
+// Arguments are two anonymous functions. The functions have different signatures.
+// One takes a string. The other takes two-property error object.
+watchTutorialCallback(
+  (message) => {
+    console.log("Success: " + message);
+  },
+  (error) => {
+    console.log(error.name + " " + error.message);
+  }
+);
 
