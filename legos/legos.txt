@@ -1,0 +1,8 @@
+Code in the /legos dir tends to be solutions or parts of solutions
+from common interview or coding test problems. Like a lego set,
+in this directory expect to find many kinds of parts of coding solutions,
+algorithms and design patterns put together in a variety of ways.
+Many of these examples come from real employment technical assessments and
+technical job interviews for Software Engineering positions.
+Particularly common or difficult items will be emphasized with a mixture of
+both basic and advanced topics.

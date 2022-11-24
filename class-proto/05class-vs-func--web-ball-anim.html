@@ -2,8 +2,7 @@
 
 <html>
 
-<!-- WARNING - Not working. I tried creating and passing an instance and adding a this.drawball() but that was not
-what was needed. Not sure what this code needs. It sure looks like it lacks instance creation. Not sure of the problem. -->
+<!-- At the bottom of the StackEx thread is a working version, which this code now is. -->
 <!-- Just something found on StackExchange that was showing simply how the function keyword is not used in front of
 method definitions. -->
 <!-- I wanted to get it working and there are no bugs I can see, but there is no ball animated or shown on the page. -->
@@ -30,79 +29,86 @@ method definitions. -->
     <canvas id="canvas-for-ball" height="800px" width="800px"></canvas>
 
     <script type="text/javascript">
-      console.log("Ball anim script entered.")
-      // Gets a handle to the element with id canvasOne.
-      var canvas = document.getElementById("canvas-for-ball");
-      // Get a 2D context for the canvas.
-      var ctx = canvas.getContext("2d");
+        // Gets a handle to the element with id canvasOne.
+        var canvas = document.getElementById("canvas-for-ball");
+        // Get a 2D context for the canvas.
+        var ctx = canvas.getContext("2d");
 
-      // The vertical location of the ball.
-      var y = 10;
-      var x = 10;
-      var ballRadius = 3;
-      var ySpeed = 1;
+        // The vertical location of the ball.
+        var y = 10;
+        var x = 10;
+        var ballRadius = 3;
+        var ySpeed = 1;
 
-      class Ball {
+        class Ball {
         constructor(x, y, ballRadius, ySpeed) {
-            console.log("Ball constructor called.")
-            this.x = x;
-            this.y = y
-            this.ballRadius = ballRadius;
-            this.ySpeed = ySpeed;
-        }//endConstructor
-
-        // ** THERE IS A BUG NEAR HERE. EITHER: "Unexpected identifier; reported on StackEx."
-        // My VSCode gives "Unexpected token. A constructor, method, accessor, or property was expected."
-        // * PROBLEM: Functions defined in a class don't need the function prefix.
-        // function drawball() {
-        //     ctx.beginPath();
-        //     ctx.arc(x, y, ballRadius, 0, 2 * Math.PI);
-        //     ctx.stroke();
-        // }//endDrawball
-        // ** SO FOR ALL OF THESE CLASS METHODS, THE "function" keyword has been removed now:
-
-        drawball() {
-            console.log("drawball() called.")
-            ctx.beginPath();
-            ctx.arc(x, y, ballRadius, 0, 2 * Math.PI);
-            ctx.stroke();
-        }//endDrawball
-
-        draw() {
-            console.log("draw() called.")
-            ctx.clearRect(1, 1, 800, 800);
-            drawball(); 
-        }//endDraw
-
-        move() {
-            console.log("move() called.")
-            // Update the y location.
-            y += ySpeed;
-            console.log(y);
+            // changed these to set the private members
+            this._x = x;
+            this._y = y
+            // updated the assignment here, it had the wrong case
+            this._ballRadius = ballRadius;
+            this._ySpeed = ySpeed;
+        } //endConstructor
+        
+        // added a setter for ySpeed so you can acess it outside of the class
+        set VerticleSpeed(val){
+            this._ySpeed = val;
         }
-      } //endBall
+        
+        // added a getter/setter for y so you can access it outside of the class
+        get VerticlePosition(){
+            return this._y;
+        }
+        
+        // remove the function keyword, it's not needed
+        drawball() {
+            ctx.beginPath();
+            // updated this to reference the properties on the class
+            ctx.arc(this._x, this._y, this._ballRadius, 0, 2 * Math.PI);
+            ctx.stroke();
+        } //endDrawball
+
+        // remove the function keyword, it's not needed
+        draw() {
+            ctx.clearRect(1, 1, 800, 800);
+            this.drawball();
+        } //endDraw
+
+        // remove the function keyword, it's not needed
+        move() {
+            // Update the y location.
+            // updated this to reference the properties on the class
+            this._y += this._ySpeed;
+            console.log("Ball position", this._y);
+        }
+        } //endBall
 
 
-      // A function to repeat every time the animation loops.
-      function repeatme() {
-        console.log("repeatme() called.")
+        // A function to repeat every time the animation loops.
+        function repeatme() {
         // Draw the ball (stroked, not filled).
-        draw();
-        move();
+        // upated to call the functions on the instance of the class
+        myBall.draw();
+        myBall.move();
 
         //catch ball at bottom
-        if (y == 800)
-        {
-            console.log("ball stopped by the floor.")
-             ySpeed = 0;
+        // changed to check the property on the instance of the class
+        // changed this bit to make it bounce and if its outside the bounds, this is just me showing off and having fun with this example
+        
+        if (myBall.VerticlePosition >= canvas.height) {
+            // changed to assign the property on the instance of the class
+            myBall.VerticleSpeed = -ySpeed;
+        } else if (myBall.VerticlePosition <= 0){
+            myBall.VerticleSpeed = ySpeed;
         }
 
         window.requestAnimationFrame(repeatme);
-      }
+        }
 
-      // Get the animation going.
-      console.log("Will call repeatme() now.")
-      repeatme();
+        // create an instance of your class
+        let myBall = new Ball(x, y, ballRadius, ySpeed)
+        // Get the animation going.
+        repeatme();
     </script>
 
   </body>
