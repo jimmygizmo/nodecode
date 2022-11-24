@@ -34,8 +34,8 @@ function readLine() {
  * The function accepts STRING s as parameter.
  */
 
-function timeConversion(s) {
-    const parseTimeRegExp = /(\d{2}):(\d{2}):(\d{2})(AM|PM)/;
+function timeConversionInitial(s) {
+    const parseTimeRegExp = /(\d+):(\d{2}):(\d{2})(AM|PM)/;
     let marr = s.match(parseTimeRegExp);
     let hours = parseInt(marr[1], 10);
     let mins = parseInt(marr[2], 10);
@@ -53,8 +53,10 @@ function timeConversion(s) {
     if (pm) {
         if ( hours < 12 ) {
             hours += 12;
-        } else if ( hours == 12) {
-            hours == 0;
+        }
+    } else {  // am
+        if ( hours == 12) {
+            hours = 0;
         }
     }
 
@@ -71,6 +73,39 @@ function timeConversion(s) {
     let time24 = rightTwo(shours) + ':' + rightTwo(smins) + ':' + rightTwo(ssecs);
     return time24
 }
+
+function timeConversion(s) {
+    const parseTimeRegExp = /(\d+):(\d{2}):(\d{2})(AM|PM)/;
+    let marr = s.match(parseTimeRegExp);
+    let hours = parseInt(marr[1], 10);
+    let mins = parseInt(marr[2], 10);
+    let secs = parseInt(marr[3], 10);
+    let pm = marr[4] === 'PM' ? true : false;
+
+    if (pm) {
+        if ( hours < 12 ) {
+            hours += 12;
+        }
+        // No such thing as 0 PM so we don't check hours == 0
+    } else {  // am
+        if ( hours == 12) {
+            hours = 0;
+        }
+    }
+
+    let shours = '00' + hours.toString(10);
+    let smins = '00' + mins.toString(10);
+    let ssecs = '00' + secs.toString(10);
+
+    const rightTwo = (preTrimmed) => {
+        const trimRE = /(\d{2})$/;
+        let marr2 = preTrimmed.match(trimRE);
+        return marr2[1];
+    }
+
+    return( rightTwo(shours) + ':' + rightTwo(smins) + ':' + rightTwo(ssecs) );
+}
+
 
 // String.prototype.matchAll()
 // let marr = s.matchAll(parseTimeRegExp)  // NOTE that String.matchAll() requires global 'g' option on RE: /abc/g
