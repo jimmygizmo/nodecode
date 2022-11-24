@@ -62,7 +62,7 @@ function miniMaxSum(arr) {
         let sniped_temp_arr = arr.filter( (_, temp_pos) => temp_pos != position );
         let sniped_temp_arr_sum = BigInt(0);
         sniped_temp_arr.map( item => { sniped_temp_arr_sum += BigInt(item) })
-        console.log( sniped_temp_arr_sum );
+        // console.log( sniped_temp_arr_sum );
         if (( sniped_temp_arr_sum > max ) || ( typeof max == typeof undefined )) { max = BigInt(sniped_temp_arr_sum) }
         if (( sniped_temp_arr_sum < min ) || ( typeof min == typeof undefined )) { min = BigInt(sniped_temp_arr_sum) }
         // sniped_sums.push(sniped_temp_arr_sum)
