@@ -35,21 +35,41 @@ function readLine() {
  */
 
 function timeConversion(s) {
-    // const parseTimeRegExp = /(\d+)\:(\d+)\:(\d+)(AM|PM)/ig;
     const parseTimeRegExp = /(\d{2}):(\d{2}):(\d{2})(AM|PM)/;
-    // const parseTimeRegExp = /(\d{2}):(\d{2}):(\d{2})/;  // Works but is partial.
-    let marr = s.match(parseTimeRegExp)
+    let marr = s.match(parseTimeRegExp);
+    let hours = parseInt(marr[1], 10);
+    let mins = parseInt(marr[2], 10);
+    let secs = parseInt(marr[3], 10);
+    let pm = marr[4] === 'PM' ? true : false;
+
     if (marr) {
-        console.log(marr.groups);
+        console.log('Hours: ' + marr[1] + '  Minutes: ' + marr[2] + '  Seconds: ' + marr[3] + '  Phase: ' + marr[4]);
+        console.log('hours: ' + hours + '  mins: ' + mins + '  secs: ' + secs + '  PM?: ' + pm);
     } else {
-        console.log('ERROR: unrecognized time format. failed to parse.');
+        console.log('ERROR: unrecognized time format. failed to parse input string.');
     }
-    // console.log(marr);
-    console.log(marr[0] + ' ' + marr[1] + ' ' + marr[2] + ' ' + marr[3] + ' ' + marr[4]);
 
+    // It would seem that any other condition other than what all this covers, is an input error and an invalid time.
+    if (pm) {
+        if ( hours < 12 ) {
+            hours += 12;
+        } else if ( hours == 12) {
+            hours == 0;
+        }
+    }
 
-    // Write your code here
+    let shours = '00' + hours.toString(10);
+    let smins = '00' + mins.toString(10);
+    let ssecs = '00' + secs.toString(10);
 
+    const rightTwo = (preTrimmed) => {
+        const trimRE = /(\d{2})$/;
+        let marr2 = preTrimmed.match(trimRE);
+        return marr2[1];
+    }
+
+    let time24 = rightTwo(shours) + ':' + rightTwo(smins) + ':' + rightTwo(ssecs);
+    return time24
 }
 
 // String.prototype.matchAll()
