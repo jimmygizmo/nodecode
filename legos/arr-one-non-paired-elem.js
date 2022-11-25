@@ -36,12 +36,21 @@ function lonelyinteger(a) {
     let counts = {};
     a.map( elem => {
         if ( typeof counts[elem] === 'undefined' ) {
+            console.log('init: ' + elem)
             counts[elem] = 1;
         } else {
             counts[elem] += 1;
         }
     })
-    console.log(counts);
+    let found;
+    Object.entries(counts).map( ([k, v]) => {
+        console.log( k + ': ' + v );
+        if ( v == 1 ) {
+            found = k;
+        }
+    })
+    return found;
+    // console.log(counts);
 }
 
 function main() {
@@ -53,7 +62,8 @@ function main() {
 
     // const result = lonelyinteger(a);
 
-    const result = lonelyinteger([1, 2, 3, 4, 3 ,2 ,1]);
+    // const result = lonelyinteger([1, 2, 3, 4, 3 ,2 ,1]);
+    const result = lonelyinteger([1]);
 
     console.log(result);
 
